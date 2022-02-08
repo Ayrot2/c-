@@ -16,7 +16,7 @@ int main()
 		}
 	}
 	std::cout << "min element: ";
-	std::cout << m, "/n";
+	std::cout << m << "\n";
 	std::cout << "count: ";
 	std::cout << c;
 }

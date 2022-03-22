@@ -23,4 +23,16 @@ void output(int sequence[], int N) {
 	for (int i = even; i >= 0; i -= 2) {
 		cout << sequence[i] << " ";
 	}
+	delete[] sequence;
+}
+
+int main()
+{
+	int N;
+	cin >> N;
+	int* sequence = new int[N];
+	input(sequence, N);
+	cout << "\n";
+	output(sequence, N);
+
 }

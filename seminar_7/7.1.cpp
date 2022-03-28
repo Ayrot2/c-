@@ -8,16 +8,25 @@ void input(int slippers[], int N) {
 }
 
 int search(int slippers[], int N) {
-	int min = 0;
+	int min = N;
+	int not_min = N;
+	bool c = true;
 	for (int i = 0; i < N; i++) {
 		for (int j = i + 1; j < N; j++) {
 			if (slippers[i] < 0 && slippers[i] + slippers[j] == 0) {
-				min = j - i;
+				not_min = j - i;
+				if (not_min < min) {
+					min = not_min;
+					c = false;
+				}
 			}
 		}
 	}
 	delete[] slippers;
-	return (min);
+	if (c == false) {
+		return (min);
+	}
+	else return (0);
 }
 
 int main()
@@ -30,4 +39,3 @@ int main()
 	cout << search(slippers, N);
 
 }
-

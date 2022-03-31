@@ -21,7 +21,6 @@ void input(Student arr[10]) {
 void sort(Student arr[10]) {
     int marks[10] = { 0 };
     for (int i = 0; i < 10; i++) {
-        // cout << "lox!! ";
         for (int j = 0; j < 10; j++) {
             if (arr[i].second_name.compare(arr[j].second_name) == 1) {
                 marks[i] += 1;

@@ -4,8 +4,8 @@ using namespace std;
 struct Student {
     string second_name;
     string name;
-    int group;
-    int ses[5];
+    int group = 0;
+    int ses[5] = { 0 };
 
 };
 

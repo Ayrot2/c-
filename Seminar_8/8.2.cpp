@@ -5,9 +5,9 @@ using namespace std;
 struct Student {
     string name;
     string second_name;
-    int age;
-    int grade;
-    int m_number;
+    int age = 0;
+    int grade = 0;
+    int m_number = 0;
     int* marks = nullptr;
 };
 
@@ -59,4 +59,3 @@ int main()
         delete s[i].marks;
     }
 }
-

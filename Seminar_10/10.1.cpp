@@ -29,7 +29,7 @@ bool comp(application a, application b) {
 
 void solve(application ap[], int n) {
     int k = 0;
-    cout << ap[0].num << " ";
+    cout << ap[0].num << " "; 
     for (int i = 0; i < n - 1; i++) {
         if (ap[k].end <= ap[i + 1].begin) {
             cout << ap[i + 1].num << " ";

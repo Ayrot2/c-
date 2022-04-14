@@ -4,7 +4,7 @@ using namespace std;
 
 struct application
 {
-    int num;
+    int num = 0;
     int begin =0 ;
     int end = 0;
 };

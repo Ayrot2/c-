@@ -1,5 +1,5 @@
-﻿
-#include <iostream>
+﻿#include <iostream>
+
 using namespace std;
 
 struct Node 
@@ -114,13 +114,82 @@ Node* insert(Node* node, int key) //рекурсивная функция доб
 	return node;
 }
 
-void preOrder(Node* root) // распечатка дерева (по левой стороне) в глубину
+
+struct Queue // Структура очереди
 {
-	if (root != nullptr)
+	int size; // Размер очереди
+	unsigned capacity; // Вместимость очереди
+	Node** array;
+};
+
+Queue* createQueue(unsigned capacity) // Создание очереди заданной вместимости
+{
+	Queue* queue = new Queue();
+	queue->capacity = capacity;
+	queue->size = 0;
+	queue->array = new Node*[queue->capacity];
+	return queue;
+}
+
+int isFull(Queue* queue) // Проверка на заполненность очереди
+{
+	return (queue->size == queue->capacity);
+}
+
+int isEmpty(Queue* queue) // Проверка на пустоту очереди
+{
+	return (queue->size == 0);
+}
+
+void push(Queue* queue, Node* item) // Добавление в конец
+{
+	if (isFull(queue))
+		return;
+	if (item != nullptr)
 	{
-		cout << root->key << " ";
-		preOrder(root->left);
-		preOrder(root->right);
+		queue->array[queue->size+1] = item;
+		queue->size = queue->size + 1;
+	}
+}
+
+
+void Wight(Queue* q, int capacity) // распечатка дерева в ширину.
+{
+	if (!isEmpty(q)) // Если очередь пустая, то мы обошли всё дерево
+	{
+		for (int i = 0; i < q->size; i++) // Цикл вывода на экран узлов дерева
+		{
+			cout << q->array[i]->key << " ";
+		}
+		int cap = q->size * 2; // Вспомогательная переменная, равная вместимости (максимальному
+		//размеру) следующего уровня
+		Queue* q1 = createQueue(cap); // Создаём очередь следующего уровня
+		int fiks = 0; // Вспомогательная переменная. Счётчик вырожденных случаев
+		for (int i = 0; i < q1->capacity; i += 2) // Цикл заполения очереди следующего уровня
+		{
+			push(q1, q->array[i / 2]->left);
+			push(q1, q->array[i / 2]->right);
+			if (q->array[i / 2]->left == nullptr) fiks += 1;
+			if (q->array[i / 2]->right == nullptr) fiks += 1;
+			if (q->array[i / 2]->left != nullptr) // Логическая конструкция, предупреждающая
+				//все вырожденные случаи
+			{
+				q1->array[i - fiks] = q->array[i / 2]->left;
+				if (q->array[i / 2]->right != nullptr) q1->array[i + 1 - fiks] = q->array[i / 2]->right;
+			}
+			else
+			{
+				if (q->array[i / 2]->right != nullptr) q1->array[i + 1 - fiks] = q->array[i / 2]->right;
+			}
+
+		}
+		cout << "\n";
+		delete[] q; // Удаление очереди предыдущего уровня
+		Wight(q1, cap); // Рекурсивно вызываем функцию для следующего уровня
+	}
+	else
+	{
+		return;
 	}
 }
 
@@ -136,7 +205,13 @@ int main()
 		root = insert(root, data);
 	}
 	cout << "\n";
-	preOrder(root);
-
+	Queue* q = createQueue(1);
+	push(q, root);
+	if (root != nullptr) 
+	{
+		q->array[0] = root;
+		q->array[0]->key = root->key;
+		Wight(q, 1);
+	}
 	return 0;
 }
